@@ -1,8 +1,11 @@
 
 
+from abc import ABC, abstractmethod
+
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Dict, Generic, List, TypeVar
 from .exceptions import ValidationException
+from rest_framework.serializers import Serializer
 
 
 @dataclass(frozen=True, slots=True)
@@ -26,7 +29,7 @@ class ValidatorRules:
         return self
 
     def number(self) -> "ValidatorRules":
-        if self.value is not None and not isinstance(self.value, (int, float)) and not isinstance(self.value, bool):
+        if self.value is not None and (not isinstance(self.value, (int, float)) or isinstance(self.value, bool)):
             raise ValidationException(
                 f"The field {self.key} must be a number")
         return self
@@ -48,3 +51,33 @@ class ValidatorRules:
             raise ValidationException(
                 f"The field {self.key} must be at least {min_length} characters")
         return self
+
+
+ErrorFields = Dict[str, List[str]]
+PropsValidated = TypeVar("PropsValidated")  # tipo genérico
+
+
+@dataclass(slots=True)
+class ValidatorFieldsInterface(ABC, Generic[PropsValidated]):
+
+    errors: ErrorFields = None
+    validated_data: PropsValidated = None
+
+    @abstractmethod
+    def validate(self, data: Any) -> bool:
+        raise NotImplementedError()
+
+
+class DRFValidator(ValidatorFieldsInterface[PropsValidated], ABC):
+
+    def validate(self, data: Serializer):
+        if data.is_valid():
+            self.validated_data = data.validated_data
+            return True
+        else:
+
+            self.errors = {
+                field: [str(_error) for _error in errors]
+                for field, errors in data.errors.items()
+            }
+            return False

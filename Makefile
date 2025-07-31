@@ -12,3 +12,12 @@ test_shared:
 clean:
 	find . -type d -name '__pycache__' -exec rm -rf {} +
 	find . -type f -name '*.pyc' -delete
+runserver:
+	python manage.py runserver
+migrate:
+	python manage.py migrate
+
+migrations:
+	python manage.py makemigrations
+createuser:
+	python manage.py createsuperuser 

@@ -1,4 +1,4 @@
-# Fakeflix
+# Estudo  projeto Django
 
 ## Gerenciamento de Ambiente com uv
 
@@ -107,5 +107,34 @@ O projeto possui um arquivo `Makefile` que facilita a execução dos comandos ma
   ```
 
 > Edite o Makefile conforme a necessidade do seu projeto!
+
+---
+
+## Comandos adicionais do Makefile
+
+O Makefile também inclui comandos úteis para o gerenciamento do projeto Django:
+
+- **runserver**: Inicia o servidor de desenvolvimento do Django.
+  ```bash
+  make runserver
+  # Equivalente a: python manage.py runserver
+  ```
+- **migrate**: Aplica as migrações do banco de dados.
+  ```bash
+  make migrate
+  # Equivalente a: python manage.py migrate
+  ```
+- **migrations**: Cria novas migrações a partir das alterações nos modelos.
+  ```bash
+  make migrations
+  # Equivalente a: python manage.py makemigrations
+  ```
+- **createuser**: Cria um superusuário (administrador) para acessar o painel administrativo do Django.
+  ```bash
+  make createuser
+  # Equivalente a: python manage.py createsuperuser
+  ```
+
+Esses comandos facilitam a administração do ambiente de desenvolvimento, permitindo rodar tarefas comuns com apenas uma linha no terminal.
 
 ---
