@@ -1,15 +1,17 @@
-#https://hub.asimov.academy/tutorial/qual-a-diferenca-entre-str-e-repr-em-python/
+# https://hub.asimov.academy/tutorial/qual-a-diferenca-entre-str-e-repr-em-python/
+
+from abc import ABC
 from dataclasses import dataclass, field
-from typing import Optional
+from typing import Any, Optional
 import uuid
 from datetime import datetime
 from shared.domain.exceptions import InvalidDateException, InvalidUuidException
 
 
-@dataclass(frozen=True)
-class DefaultEntity:
+@dataclass(frozen=True, slots=True, kw_only=True)
+class DefaultEntity(ABC):
     """Default entity"""
-    id: Optional[uuid.UUID] = field(default_factory=uuid.uuid4)
+    id: str = field(default_factory=lambda: str(uuid.uuid4()))
     created_at: Optional[datetime] = field(default_factory=datetime.now)
 
     def __post_init__(self):
@@ -32,6 +34,6 @@ class DefaultEntity:
         if not isinstance(self.created_at, datetime):
             raise InvalidDateException()
 
-
-    def __repr__(self) -> str:
-        return f"DefaultEntity(id={self.id!r}, created_at={self.created_at!r})"
+    def _set(self, key: str, value: Any):
+        object.__setattr__(self, key, value)
+        return self

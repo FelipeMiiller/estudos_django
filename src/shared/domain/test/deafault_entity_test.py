@@ -1,7 +1,9 @@
-from dataclasses import FrozenInstanceError, is_dataclass
-import pytest
+"""test module for default entity"""
 import uuid
 from datetime import datetime
+from abc import ABC
+from dataclasses import FrozenInstanceError, is_dataclass
+import pytest
 from shared.domain.default_entity import DefaultEntity
 from shared.domain.exceptions import InvalidUuidException, InvalidDateException
 
@@ -54,8 +56,15 @@ def test_is_immutable():
         entity.created_at = "not-a-date"
 
 
-def test_entitydefault_repr():
-    """should return a string when repr is called"""
+def test_defaultentity_is_a_abc():
+    """should return true when DefaultEntity is a abc"""
+    assert issubclass(DefaultEntity, ABC)
+
+
+def test_defaultentity_set():
+    """should return a entitydefault when set is called"""
     entity = DefaultEntity()
-    assert repr(entity) == f"DefaultEntity(id={entity.id!r}, created_at={entity.created_at!r})"
-    
+    # pylint: disable=protected-access
+    entity._set("id", "3b995105-4504-4718-b229-93c6b6a2f388")
+
+    assert entity.id == "3b995105-4504-4718-b229-93c6b6a2f388"

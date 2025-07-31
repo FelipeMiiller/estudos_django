@@ -3,7 +3,6 @@
 test:
 	python -m pytest
 
-
 test_category:
 	python -m pytest src/category/
 
