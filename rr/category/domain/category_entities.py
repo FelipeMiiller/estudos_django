@@ -11,10 +11,12 @@ class Category(DefaultEntity):
     is_active: bool = True
 
     def __post_init__(self):
-        self.validate(name=self.name, description=self.description, is_active=self.is_active)
+        self.validate(name=self.name, description=self.description,
+                      is_active=self.is_active)
 
     def update(self, name: str, description: str):
-        self.validate(name=name, description=description, is_active=self.is_active)
+        self.validate(name=name, description=description,
+                      is_active=self.is_active)
         self._set("name", name)
         self._set("description", description)
 
@@ -25,7 +27,7 @@ class Category(DefaultEntity):
         self._set("is_active", False)
 
     @classmethod
-    def validate(cls, name: str, description: str, is_active: bool=None):
+    def validate(cls, name: str, description: str, is_active: bool = None):
         ValidatorRules.validate(
             name, "name").required().string().max_length(255)
         ValidatorRules.validate(description, "description").string()

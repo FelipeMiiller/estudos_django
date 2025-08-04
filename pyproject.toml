@@ -5,7 +5,10 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
+   "django-ckeditor>=6.7.3",
    "djangorestframework>=3.16.0",
+   "pillow>=11.3.0",
    "pytest>=8.4.1",
    "python-dotenv>=1.1.1",
+   "ulid-py>=1.1.0",
 ]
