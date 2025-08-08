@@ -3,11 +3,11 @@
 # Stage 1: Build frontend (Tailwind, DaisyUI, etc)
 FROM node:20-alpine AS frontend-build
 WORKDIR /app
-COPY ../package.json ../yarn.lock ./
+COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
-COPY ../static/ ./static/
-COPY ../app/templates/ ./app/templates/
-COPY ../products/templates/ ./products/templates/
+COPY static/ ./static/
+COPY app/templates/ ./app/templates/
+COPY products/templates/ ./products/templates/
 # Gera o CSS otimizado
 RUN yarn run tailwind:build
 
@@ -17,7 +17,7 @@ WORKDIR /app
 
 RUN pip install uv
 COPY pyproject.toml uv.lock ./
-RUN uv pip install --system --no-cache-dir --prod
+RUN uv pip install --system -r pyproject.toml
 
 # Stage 3: Final image
 FROM python:3.10-slim
@@ -26,7 +26,7 @@ ENV PYTHONUNBUFFERED=1
 ENV DJANGO_SETTINGS_MODULE=app.settings
 
 # Copia dependências já instaladas
-COPY --from=python-build /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
+COPY --from=python-build /usr/local/lib/python3.10/site-packages /usr/local/lib/python3.10/site-packages
 COPY --from=python-build /usr/local/bin/uv /usr/local/bin/uv
 
 # Copia projeto
