@@ -1,0 +1,16 @@
+{
+  "name": "estudos_python",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Felipe <felipemiillerr@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "tailwind:watch": "npx @tailwindcss/cli -i ./static/css/input.css -o ./static/css/output.css --watch",
+    "tailwind:build": "npx @tailwindcss/cli -i ./static/css/input.css -o ./static/css/output.css"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.11",
+    "daisyui": "^5.0.50",
+    "tailwindcss": "^4.1.11"
+  }
+}
